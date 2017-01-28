@@ -63,7 +63,17 @@
   </style>
 
   <script>
+    const updateCss = (e) => {
+      const that = e.target;
+      const newValue = `${that.value}${that.dataset.sizing || ''}`;
+      document.documentElement.style.setProperty(`--${that.name}`, newValue);
+    }
 
+    const controls = document.querySelectorAll('.controls input');
+    controls.forEach(el => {
+      el.addEventListener('change', updateCss);
+      el.addEventListener('mousemove', updateCss);
+    });
   </script>
 
 </body>
