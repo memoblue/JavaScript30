@@ -89,7 +89,7 @@
     const hours = now.getHours();
     const secondsDegrees = ((seconds / 60) * 360) + 90; // 90 = offset to start vertical instead of horizontal
     const minutesDegrees = ((minutes / 60) * 360) + 90;
-    const hoursDegrees = ((hours / 60) * 360) + 90;
+    const hoursDegrees = ((hours / 12) * 360) + 90;
     secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
     minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
     hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
