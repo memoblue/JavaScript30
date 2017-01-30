@@ -64,7 +64,7 @@
 
   <script>
     const updateCss = (e) => {
-      const that = e.target;
+      const that = e.currentTarget;
       const newValue = `${that.value}${that.dataset.sizing || ''}`;
       document.documentElement.style.setProperty(`--${that.name}`, newValue);
     }
