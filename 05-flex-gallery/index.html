@@ -22,11 +22,15 @@
     }
 
     .panels {
+      display: flex;
       min-height:100vh;
       overflow: hidden;
     }
 
     .panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       background:#6B0F9C;
       box-shadow:inset 0 0 0 5px rgba(255,255,255,0.1);
       color:white;
@@ -43,7 +47,6 @@
       background-position:center;
     }
 
-
     .panel1 { background-image:url(../_img/mountains.jpeg); }
     .panel2 { background-image:url(../_img/boreal.jpeg); }
     .panel3 { background-image:url(../_img/run.jpeg); }
@@ -51,10 +54,19 @@
     .panel5 { background-image:url(../_img/clouds.jpeg); }
 
     .panel > * {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin:0;
       width: 100%;
       transition:transform 0.5s;
     }
+
+    .panel > *:first-child { transform: translateY(-100%); }
+    .panel.open-active > *:first-child { transform: translateY(0); }
+    .panel > *:last-child { transform: translateY(100%); }
+    .panel.open-active > *:last-child { transform: translateY(0); }
 
     .panel p {
       text-transform: uppercase;
@@ -68,6 +80,7 @@
 
     .panel.open {
       font-size:40px;
+      flex: 5;
     }
 
     .cta {
@@ -107,7 +120,23 @@
   </div>
 
   <script>
+    function togglePanel() {
+      this.classList.toggle('open');
+    }
 
+    function toggleActive(e) {
+      console.log(e.propertyName);
+      if(e.propertyName.includes('flex')) {
+        this.classList.toggle('open-active');
+      }
+    }
+
+    const panels = document.querySelectorAll('.panel');
+
+    panels.forEach((el) => {
+      el.addEventListener('click', togglePanel);
+      el.addEventListener('transitionend', toggleActive);
+    });
   </script>
 
 
