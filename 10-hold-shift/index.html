@@ -104,7 +104,30 @@
   </div>
 
 <script>
+  const items = [...document.querySelectorAll('.item')];
+  let isShift;
+  let pastIndex;
 
+  function selectItems(e) {
+    const currentIndex = (items.findIndex(item => item === e.currentTarget)); // +1 so [0] doesnt return false
+    if (pastIndex === undefined) { pastIndex = currentIndex; } // set past to current first time around
+    const currentCheckbox = items[currentIndex].querySelector('input');
+    const pastCheckbox = items[pastIndex].querySelector('input');
+    const [start, stop] = [currentIndex, pastIndex].sort((f, s) => f - s);
+
+    if (isShift && pastCheckbox.checked && currentCheckbox.checked) {
+      for(let i = start; i < stop; i++) {
+        items[i].querySelector('input').checked = true;
+      }
+    }
+
+    // console.log(`start: ${start}, stop: ${stop}, current: ${currentIndex}, past: ${pastIndex}, `);
+    pastIndex = currentIndex;
+  }
+
+  items.forEach(item => item.addEventListener('change', selectItems));
+  window.addEventListener('keydown', (e) => isShift = e.keyCode === 16);
+  window.addEventListener('keyup', (e) => isShift = false);
 </script>
 </body>
 </html>
