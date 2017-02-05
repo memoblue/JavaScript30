@@ -104,30 +104,26 @@
   </div>
 
 <script>
-  const items = [...document.querySelectorAll('.item')];
-  let isShift;
+  const items = [...document.querySelectorAll('.inbox input[type="checkbox"')];
   let pastIndex;
 
   function selectItems(e) {
-    const currentIndex = (items.findIndex(item => item === e.currentTarget));
+    const currentIndex = (items.findIndex(item => item === this));
     if (pastIndex === undefined) { pastIndex = currentIndex; } // set past to current first time around
-    const currentCheckbox = items[currentIndex].querySelector('input');
-    const pastCheckbox = items[pastIndex].querySelector('input');
+    const pastCheckbox = items[pastIndex];
     const [start, stop] = [currentIndex, pastIndex].sort((f, s) => f - s);
 
-    if (isShift && pastCheckbox.checked && currentCheckbox.checked) {
+    if (e.shiftKey && pastCheckbox.checked && this.checked) {
       for(let i = start; i < stop; i++) {
-        items[i].querySelector('input').checked = true;
+        items[i].checked = true;
       }
     }
 
-    // console.log(`start: ${start}, stop: ${stop}, current: ${currentIndex}, past: ${pastIndex}, `);
+    // console.log(`start: ${start}, stop: ${stop}, current: ${currentIndex}, past: ${pastIndex}`);
     pastIndex = currentIndex;
   }
 
-  items.forEach(item => item.addEventListener('change', selectItems));
-  window.addEventListener('keydown', (e) => isShift = e.keyCode === 16);
-  window.addEventListener('keyup', (e) => isShift = false);
+  items.forEach(item => item.addEventListener('click', selectItems));
 </script>
 </body>
 </html>
