@@ -25,6 +25,7 @@ function skip() {
 
 function handleRangeUpdate() {
   video[this.name] = this.value; // name set on inputs: volume, playbackRate
+  console.log(this.value);
 }
 
 function handleProgress() {
@@ -44,8 +45,7 @@ video.addEventListener('pause', updateButton);
 video.addEventListener('timeupdate', handleProgress);
 toggle.addEventListener('click', togglePlay);
 skipButtons.forEach(bt => bt.addEventListener('click', skip));
-ranges.forEach(slider => slider.addEventListener('change', handleRangeUpdate));
-ranges.forEach(slider => slider.addEventListener('mousemove', handleRangeUpdate));
+ranges.forEach(slider => slider.addEventListener('input', handleRangeUpdate));
 
 progress.addEventListener('click', scrub);
 let mousedown = false;
