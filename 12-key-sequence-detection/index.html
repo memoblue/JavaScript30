@@ -11,7 +11,7 @@ let pressed = [];
 const secret = 'blop';
 window.addEventListener('keyup', (e) => {
   pressed.push(e.key);
-  pressed.splice(-secret.length -1, pressed.length - secret.length);
+  pressed.length > secret.length ? pressed.shift() : '';
   if(pressed.join('') === 'blop') {
     cornify_add();
   }
