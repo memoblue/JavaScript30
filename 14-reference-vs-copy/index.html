@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Reference VS Copy</title>
+</head>
+<body>
+
+  <script>
+    // primitives: copy
+    let name = 'Wes';
+    let name2 = name;
+    console.log(name, name2);
+    name = 'wesley';
+    console.log(name, name2);
+
+    // arrays: reference
+    const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+    // and we want to make a copy of it.
+    const team = players;
+    console.log(players, team);
+    // To make a copy instead (the original one isn't changed)
+    const team2 = players.slice();
+    const team3 = [].concat(players);
+    const team4 = [...players];
+    const team5 = Array.from(players);
+
+    // objects: reference
+    const person = {
+      name: 'Wes Bos',
+      age: 80
+    };
+    // To copy instead
+    const cap2 = Object.assign({}, person, { number: 99, age: 12 });
+    console.log(cap2);
+    // ES6 - not supported by browsers yet
+    // const cap3 = {...person};
+
+    // Things to note - this is only 1 level deep
+    // a "poor man's" deep cloning technic using JSON
+    const wes = {
+      name: 'Wes',
+      age: 100,
+      social: {
+        twitter: '@wesbos',
+        facebook: 'wesbos.developer'
+      }
+    };
+    console.log(wes);
+    const dev = Object.assign({}, wes);
+    const dev2 = JSON.parse(JSON.stringify(wes));
+
+  </script>
+
+</body>
+</html>
