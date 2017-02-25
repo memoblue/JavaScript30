@@ -55,7 +55,7 @@
 
   function toggleCheckmark(e) {
     const that = e.target;
-    if (!that.matches('input')) return // skip if it's not a checkbox
+    if (!that.matches('input')) return; // skip if it's not a checkbox
     items[that.dataset.index].done = !items[that.dataset.index].done;
     localStorage.setItem('items', JSON.stringify(items));
   }
