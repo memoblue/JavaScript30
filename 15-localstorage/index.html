@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LocalStorage</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <h2>FAVORITE TRAILS</h2>
+    <form class="toggle">
+      <p>
+        <input type="checkbox" id="toggleAll">
+        <label for="toggleAll">toggle all</label>
+      </p>
+    </form>
+    <ul class="runs">
+      <li>No trails yet…</li>
+    </ul>
+    <form class="add-items">
+      <input type="text" name="item" placeholder="Item Name" required>
+      <input type="submit" value="+ Add Item">
+    </form>
+  </div>
+
+<script>
+  const addItems = document.querySelector('.add-items');
+  const itemsList = document.querySelector('.runs');
+  const toggleAll = document.querySelector('#toggleAll');
+  const items = JSON.parse(localStorage.getItem('items')) || [];
+
+  function addItem(e) {
+    e.preventDefault();
+    const inputValue = this.querySelector('[name=item]').value;
+    const item = {
+      text: inputValue,
+      done: false
+    };
+    items.push(item);
+    addToDom(items, itemsList);
+    localStorage.setItem('items', JSON.stringify(items));
+    this.reset();
+  }
+
+  function addToDom(items = [], itemsList) {
+    itemsList.innerHTML = items.map((item, i) => {
+      return `
+        <li>
+          <input type="checkbox" data-index=${i} id="item${i}" ${item.done ? 'checked' : ''} />
+          <label for="item${i}">${item.text}</label>
+        </li>
+      `;
+    }).join('');
+  }
+
+  function toggleCheckmark(e) {
+    const that = e.target;
+    if (!that.matches('input')) return // skip if it's not a checkbox
+    items[that.dataset.index].done = !items[that.dataset.index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+  }
+
+  // half baked solution fot the "extra" challenge
+  // the right way to do it wouild be to set localStorage toggleAll value
+  // but this really shows why react/redux is so awesome
+  function handleToggleAll(e) {
+    const checkboxes = itemsList.querySelectorAll('input');
+    if (this.checked) {
+      checkboxes.forEach(c => c.checked = true);
+      localStorage.setItem('items', JSON.stringify(items.map(i => ({
+        text: i.text,
+        done: true
+      }))));
+    } else {
+      checkboxes.forEach(c => c.checked = false);
+      localStorage.setItem('items', JSON.stringify(items.map(i => ({
+        text: i.text,
+        done: false
+      }))));
+    }
+  }
+
+  addItems.addEventListener('submit', addItem);
+  itemsList.addEventListener('click', toggleCheckmark);
+  toggleAll.addEventListener('click', handleToggleAll);
+  addToDom(items, itemsList); // initialize the list via localStorage if any
+</script>
+
+
+</body>
+</html>
