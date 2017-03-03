@@ -182,11 +182,22 @@
     </li>
   </ul>
 <script>
-  const durations = [];
-  document.querySelectorAll('.videos li').forEach(li => durations.push(li.dataset.time));
-  const seconds = durations.map(t => (Number(t.split(':')[0])*60)+ Number(t.split(':')[1]));
-  const total = seconds.reduce((memo, v) => memo + v, 0);
-  console.log(`${total} seconds`);
+  const durations = [...document.querySelectorAll('[data-time]')];
+  const totalSeconds = durations
+                    .map(li => li.dataset.time)
+                    .map(time => {
+                      const [mn, sec] = time.split(':').map(parseFloat);
+                      return (mn * 60) + sec;
+                    })
+                    .reduce((memo, v) => memo + v, 0);
+
+  let secondsLeft = totalSeconds;
+  const hours = Math.floor(secondsLeft / 3600);
+  secondsLeft = secondsLeft % 3600;
+  const minutes = Math.floor(secondsLeft / 60);
+  secondsLeft = secondsLeft % 60;
+
+  console.log(hours, minutes, secondsLeft);
 </script>
 </body>
 </html>
